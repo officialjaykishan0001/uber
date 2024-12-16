@@ -175,3 +175,101 @@ curl -X POST \
 }
 ```
 
+
+## */users/login* Endpoint
+
+### Description
+The `/users/login` endpoint is used to authenticate an existing user. It validates the email and password, checks the credentials against the database, and returns a token for authentication.
+
+---
+
+### HTTP Method
+**POST**
+
+### URL
+`/users/login`
+
+---
+
+### Request Body
+The request body must include the following fields:
+
+#### JSON Format:
+```json
+{
+    "email": "johndoe@example.com",
+    "password": "yourpassword"
+}
+```
+
+#### Field Descriptions:
+- **email** (required):
+  - Type: String
+  - Description: The email address of the user.
+  - Constraints: Must be a valid email format.
+
+- **password** (required):
+  - Type: String
+  - Description: The password for the account.
+  - Constraints: Must be at least 6 characters long.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "token": "<JWT_TOKEN>",
+    "user": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "_id": "<USER_ID>",
+        "email": "johndoe@example.com",
+        "password": "<USER_PASSWORD>"
+    }
+}
+```
+
+#### Field Descriptions:
+- **token**: The JSON Web Token (JWT) to be used for authentication.
+- **user**:
+  - **_id**: The unique identifier of the user.
+  - **fullname**: The authenticated user's name.
+  - **email**: The authenticated user's email.
+
+---
+
+#### Error Responses:
+
+##### Validation Error:
+###### HTTP Status Code: 400
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid Email",
+            "param": "email",
+            "location": "body"
+        },
+        {
+            "msg": "Password must be at least 6 characters long",
+            "param": "password",
+            "location": "body"
+        }
+    ]
+}
+```
+
+##### Invalid Credentials:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
