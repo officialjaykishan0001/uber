@@ -1,6 +1,6 @@
 # Backend API Documentation
 
-## */users/register* Endpoint
+## Endpoint: /users/register 
 
 ### Description
 
@@ -176,7 +176,7 @@ curl -X POST \
 ```
 
 
-## */users/login* Endpoint
+## Endpoint: /users/login
 
 ### Description
 The `/users/login` endpoint is used to authenticate an existing user. It validates the email and password, checks the credentials against the database, and returns a token for authentication.
@@ -272,4 +272,109 @@ The request body must include the following fields:
     "message": "Invalid email or password"
 }
 ```
+
+## Endpoint: /users/profile
+
+### Description
+The `/users/profile` endpoint is used to retrieve the authenticated user's profile. This endpoint requires the user to be authenticated and will return the user's details.
+
+---
+
+### HTTP Method
+**GET**
+
+### URL
+`/users/profile`
+
+---
+
+### Headers
+- **Authorization** (required):
+  - Format: `Bearer <JWT_TOKEN>`
+  - Description: The token obtained during login.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "_id": "<USER_ID>",
+    "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    "email": "johndoe@example.com"
+}
+```
+
+#### Field Descriptions:
+- **_id**: The unique identifier of the user.
+- **fullname**:
+  - **firstname**: The user's first name.
+  - **lastname**: The user's last name.
+- **email**: The user's email address.
+
+---
+
+#### Error Responses:
+
+##### Unauthorized Access:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Unauthorized"
+}
+```
+
+---
+
+## Endpoint: /users/logout
+
+### Description
+The `/users/logout` endpoint is used to log out the authenticated user. It clears the authentication token and blacklists it to prevent reuse.
+
+---
+
+### HTTP Method
+**GET**
+
+### URL
+`/users/logout`
+
+---
+
+### Headers
+- **Authorization** (required):
+  - Format: `Bearer <JWT_TOKEN>`
+  - Description: The token obtained during login.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "message": "Logged out"
+}
+```
+
+---
+
+#### Error Responses:
+
+##### Unauthorized Access:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Unauthorized"
+}
+```
+
 
