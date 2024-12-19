@@ -377,4 +377,151 @@ The `/users/logout` endpoint is used to log out the authenticated user. It clear
 }
 ```
 
+## Endpoint: /captains/register
+
+### Description
+The `/captains/register` endpoint is used to register a new captain in the system. It validates the incoming data, hashes the password, stores the captain in the database, and returns a token for authentication.
+
+---
+
+### HTTP Method
+**POST**
+
+### URL
+`/captains/register`
+
+---
+
+### Request Body
+The request body must include the following fields:
+
+#### JSON Format:
+```json
+{
+    "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "password": "yourpassword",
+    "vehicle": {
+        "color": "Red",
+        "plate": "AB123CD",
+        "capacity": 4,
+        "vehicleType": "car"
+    }
+}
+```
+
+#### Field Descriptions:
+- **fullname.firstname** (required):
+  - Type: String
+  - Description: The first name of the captain.
+  - Constraints: Must be at least 3 characters long.
+
+- **fullname.lastname** (optional):
+  - Type: String
+  - Description: The last name of the captain.
+  - Constraints: Must be at least 3 characters long (if provided).
+
+- **email** (required):
+  - Type: String
+  - Description: The email address of the captain.
+  - Constraints: Must be a valid email format.
+
+- **password** (required):
+  - Type: String
+  - Description: The password for the account.
+  - Constraints: Must be at least 6 characters long.
+
+- **vehicle.color** (required):
+  - Type: String
+  - Description: The color of the captain's vehicle.
+  - Constraints: Must be at least 3 characters long.
+
+- **vehicle.plate** (required):
+  - Type: String
+  - Description: The license plate of the captain's vehicle.
+  - Constraints: Must be at least 3 characters long.
+
+- **vehicle.capacity** (required):
+  - Type: Number
+  - Description: The capacity of the captain's vehicle.
+  - Constraints: Must be at least 1.
+
+- **vehicle.vehicleType** (required):
+  - Type: String
+  - Description: The type of the vehicle.
+  - Constraints: Must be one of `car`, `motorcycle`, or `auto`.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 201
+
+##### JSON Format:
+```json
+{
+    "token": "<JWT_TOKEN>",
+    "captain": {
+        "_id": "<CAPTAIN_ID>",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com",
+        "vehicle": {
+            "color": "Red",
+            "plate": "AB123CD",
+            "capacity": 4,
+            "vehicleType": "car"
+        }
+    }
+}
+```
+
+#### Field Descriptions:
+- **token**: The JSON Web Token (JWT) to be used for authentication.
+- **captain**:
+  - **_id**: The unique identifier of the captain.
+  - **fullname**: The registered captain's name.
+  - **email**: The registered captain's email.
+  - **vehicle**:
+    - **color**: The color of the captain's vehicle.
+    - **plate**: The license plate of the captain's vehicle.
+    - **capacity**: The capacity of the vehicle.
+    - **vehicleType**: The type of the vehicle.
+
+---
+
+#### Error Responses:
+
+##### Validation Error:
+###### HTTP Status Code: 400
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid Email",
+            "param": "email",
+            "location": "body"
+        },
+        {
+            "msg": "Color must be at least 3 characters long",
+            "param": "vehicle.color",
+            "location": "body"
+        }
+    ]
+}
+```
+
+##### Captain Already Exists:
+###### HTTP Status Code: 400
+```json
+{
+    "message": "Captain already exist"
+}
+```
+
 
