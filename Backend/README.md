@@ -523,5 +523,219 @@ The request body must include the following fields:
     "message": "Captain already exist"
 }
 ```
+## Endpoint: /captains/login
 
+### Description
+The `/captains/login` endpoint is used to authenticate an existing captain. It validates the email and password, checks the credentials against the database, and returns a token for authentication.
+
+---
+
+### HTTP Method
+**POST**
+
+### URL
+`/captains/login`
+
+---
+
+### Request Body
+The request body must include the following fields:
+
+#### JSON Format:
+```json
+{
+    "email": "johndoe@example.com",
+    "password": "yourpassword"
+}
+```
+
+#### Field Descriptions:
+- **email** (required):
+  - Type: String
+  - Description: The email address of the captain.
+  - Constraints: Must be a valid email format.
+
+- **password** (required):
+  - Type: String
+  - Description: The password for the account.
+  - Constraints: Must be at least 6 characters long.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "token": "<JWT_TOKEN>",
+    "captain": {
+        "_id": "<CAPTAIN_ID>",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com"
+    }
+}
+```
+
+#### Field Descriptions:
+- **token**: The JSON Web Token (JWT) to be used for authentication.
+- **captain**:
+  - **_id**: The unique identifier of the captain.
+  - **fullname**: The authenticated captain's name.
+  - **email**: The authenticated captain's email.
+
+---
+
+#### Error Responses:
+
+##### Validation Error:
+###### HTTP Status Code: 400
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid Email",
+            "param": "email",
+            "location": "body"
+        },
+        {
+            "msg": "Password must be at least 6 characters long",
+            "param": "password",
+            "location": "body"
+        }
+    ]
+}
+```
+
+##### Invalid Credentials:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
+---
+
+## Endpoint: /captains/profile
+
+### Description
+The `/captains/profile` endpoint is used to retrieve the authenticated captain's profile. This endpoint requires authentication and returns the captain's details.
+
+---
+
+### HTTP Method
+**GET**
+
+### URL
+`/captains/profile`
+
+---
+
+### Headers
+- **Authorization** (required):
+  - Format: `Bearer <JWT_TOKEN>`
+  - Description: The token obtained during login.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "captain": {
+        "_id": "<CAPTAIN_ID>",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com",
+        "vehicle": {
+            "color": "Red",
+            "plate": "AB123CD",
+            "capacity": 4,
+            "vehicleType": "car"
+        }
+    }
+}
+```
+
+#### Field Descriptions:
+- **captain**:
+  - **_id**: The unique identifier of the captain.
+  - **fullname**:
+    - **firstname**: The captain's first name.
+    - **lastname**: The captain's last name.
+  - **email**: The captain's email address.
+  - **vehicle**:
+    - **color**: The color of the captain's vehicle.
+    - **plate**: The license plate of the captain's vehicle.
+    - **capacity**: The capacity of the vehicle.
+    - **vehicleType**: The type of the vehicle.
+
+---
+
+#### Error Responses:
+
+##### Unauthorized Access:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Unauthorized"
+}
+```
+
+---
+
+## Endpoint: /captains/logout
+
+### Description
+The `/captains/logout` endpoint is used to log out the authenticated captain. It clears the authentication token and blacklists it to prevent reuse.
+
+---
+
+### HTTP Method
+**GET**
+
+### URL
+`/captains/logout`
+
+---
+
+### Headers
+- **Authorization** (required):
+  - Format: `Bearer <JWT_TOKEN>`
+  - Description: The token obtained during login.
+
+---
+
+### Response
+#### Success Response:
+##### HTTP Status Code: 200
+
+##### JSON Format:
+```json
+{
+    "message": "Logout successfully"
+}
+```
+
+---
+
+#### Error Responses:
+
+##### Unauthorized Access:
+###### HTTP Status Code: 401
+```json
+{
+    "message": "Unauthorized"
+}
+```
 

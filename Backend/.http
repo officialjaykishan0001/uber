@@ -26,20 +26,31 @@
 # Content-Type: application/json
 
 # GET  http://localhost:4000/users/logout
-POST   http://localhost:4000/captains/register 
-Content-Type: application/json
+# POST   http://localhost:4000/captains/register 
+# Content-Type: application/json
 
-{
-    "fullname": {
-        "firstname": "test_captain_firstname",
-        "lastname": "test_captain_lastname"
-    },
-    "email": "test_email2@gmail.com",
-    "password": "test_captain",
-    "vehicle":{
-        "color": "red",
-        "plate": "MP 04 XY 6204",
-        "capacity":3,
-        "vehicleType": "car"
-    }
-}
+# {
+#     "fullname": {
+#         "firstname": "test_captain_firstname",
+#         "lastname": "test_captain_lastname"
+#     },
+#     "email": "test_email2@gmail.com",
+#     "password": "test_captain",
+#     "vehicle":{
+#         "color": "red",
+#         "plate": "MP 04 XY 6204",
+#         "capacity":3,
+#         "vehicleType": "car"
+#     }
+# }
+
+
+# POST   http://localhost:4000/captains/login 
+# Content-Type: application/json
+
+# {
+#     "email": "test_email2@gmail.com",
+#     "password": "test_captain"
+# }
+# GET   http://localhost:4000/captains/logout 
+# GET   http://localhost:4000/captains/profile 
